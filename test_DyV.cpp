@@ -1,8 +1,75 @@
 #include "DyV.h"
 #include <iostream>
 #include <vector>
+#include <chrono> // Para medir los tiempos de ejecución
+#include <cstdlib> // Para srand
 
 using namespace std;
+
+// Función para llenar el vector con datos desordenados
+template <typename T>
+std::vector<T> generarVectorAleatorio(int tam) {
+    std::vector<T> vec(tam);
+    for (T& val : vec) {
+        val = static_cast<T>(std::rand() % 1000); // Números aleatorios entre 0 y 999
+    }
+    return vec;
+}
+
+// Función para medir el tiempo de ejecución de QuickSort con pivote último
+template <typename T>
+void medirTiempoQuickSort(const std::vector<T>& vec) {
+    auto copia = vec; // Copiamos el vector para no modificar el original
+
+    auto start = std::chrono::high_resolution_clock::now();
+    QuickSort(copia, 0, copia.size() - 1);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duracion = end - start;
+    std::cout << "Tiempo de QuickSort con pivote último: " << duracion.count() << " segundos" << std::endl;
+}
+
+// Función para medir el tiempo de ejecución de QuickSort con pivote primero
+template <typename T>
+void medirTiempoQuickSortPrimero(const std::vector<T>& vec) {
+    auto copia = vec; // Copiamos el vector para no modificar el original
+
+    auto start = std::chrono::high_resolution_clock::now();
+    QuickSortPrimero(copia, 0, copia.size() - 1);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duracion = end - start;
+    std::cout << "Tiempo de QuickSort con pivote primero: " << duracion.count() << " segundos" << std::endl;
+}
+
+// Función para medir el tiempo de ejecución de QuickSort con pivote random
+template <typename T>
+void medirTiempoQuickSortAleatorio(const std::vector<T>& vec) {
+    auto copia = vec; // Copiamos el vector para no modificar el original
+
+    auto start = std::chrono::high_resolution_clock::now();
+    QuickSortAleatorio(copia, 0, copia.size() - 1);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duracion = end - start;
+    std::cout << "Tiempo de QuickSort con pivote aleatorio: " << duracion.count() << " segundos" << std::endl;
+}
+
+// Función para medir el tiempo de ejecución de QuickSort con pivote central
+template <typename T>
+void medirTiempoQuickSortCentral(const std::vector<T>& vec) {
+    auto copia = vec; // Copiamos el vector para no modificar el original
+
+    auto start = std::chrono::high_resolution_clock::now();
+    QuickSortCentral(copia, 0, copia.size() - 1);
+    auto end = std::chrono::high_resolution_clock::now();
+
+    std::chrono::duration<double> duracion = end - start;
+    std::cout << "Tiempo de QuickSort con pivote central: " << duracion.count() << " segundos" << std::endl;
+}
+
+
+
 
 // Función para verificar si un vector está ordenado en orden ascendente
 template <typename T>
@@ -20,40 +87,40 @@ void testQuickSort() {
     bool todas_las_pruebas_correctas = true;
 
     // Prueba con enteros
-    std::vector<int> vec_int = {34, 7, 23, 32, 5, 62};
+    vector<int> vec_int = {34, 7, 23, 32, 5, 62};
     QuickSort(vec_int, 0, vec_int.size() - 1);
     if (estaOrdenado(vec_int)) {
-        std::cout << "Prueba con int pasó correctamente.\n";
+        cout << "Prueba con int pasó correctamente.\n";
     } else {
-        std::cout << "Prueba con int falló.\n";
+        cout << "Prueba con int falló.\n";
         todas_las_pruebas_correctas = false;
     }
 
     // Prueba con flotantes
-    std::vector<float> vec_float = {3.4, 7.1, 2.3, 3.2, 5.0, 6.2};
+    vector<float> vec_float = {3.4, 7.1, 2.3, 3.2, 5.0, 6.2};
     QuickSort(vec_float, 0, vec_float.size() - 1);
     if (estaOrdenado(vec_float)) {
-        std::cout << "Prueba con float pasó correctamente.\n";
+        cout << "Prueba con float pasó correctamente.\n";
     } else {
-        std::cout << "Prueba con float falló.\n";
+        cout << "Prueba con float falló.\n";
         todas_las_pruebas_correctas = false;
     }
 
     // Prueba con caracteres
-    std::vector<char> vec_char = {'d', 'a', 'c', 'f', 'b', 'e'};
+    vector<char> vec_char = {'d', 'a', 'c', 'f', 'b', 'e'};
     QuickSort(vec_char, 0, vec_char.size() - 1);
     if (estaOrdenado(vec_char)) {
-        std::cout << "Prueba con char pasó correctamente.\n";
+        cout << "Prueba con char pasó correctamente.\n";
     } else {
-        std::cout << "Prueba con char falló.\n";
+        cout << "Prueba con char falló.\n";
         todas_las_pruebas_correctas = false;
     }
 
     // Resultado final
     if (todas_las_pruebas_correctas) {
-        std::cout << "Todas las pruebas de QuickSort pasaron correctamente." << std::endl;
+        cout << "Todas las pruebas de QuickSort pasaron correctamente." << std::endl;
     } else {
-        std::cout << "Algunas pruebas de QuickSort fallaron." << std::endl;
+        cout << "Algunas pruebas de QuickSort fallaron." << std::endl;
     }
 }
 
@@ -93,4 +160,18 @@ int main(){
 
 	testQuickSort();
 
+	srand(time(0)); // Inicializar semilla para aleatoriedad
+
+    int tam = 10000; // Tamaño del vector
+
+    // Prueba con un vector de enteros
+    vector<int> vec = generarVectorAleatorio<int>(tam);
+
+    // Medir el tiempo de cada versión de QuickSort con diferentes particiones
+    medirTiempoQuickSort(vec);
+    medirTiempoQuickSortPrimero(vec);
+    medirTiempoQuickSortAleatorio(vec);
+    medirTiempoQuickSortCentral(vec);
+
+	return 0;
 }

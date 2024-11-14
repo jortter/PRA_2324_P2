@@ -106,7 +106,29 @@ int Partition(std::vector<T>& v, int ini, int fin){
 	return i;
 }
 
-// Funcion QuickSort
+// Partition usando el primer elemento como pivote
+int PartitionPrimero(std::vector<int>& V, int ini, int fin) {
+    swap(V[ini], V[fin]); // Cambiamos el primer elemento con el último para reutilizar la misma lógica
+    return Partition(V, ini, fin);
+}
+
+// Partition usando un elemento aleatorio como pivote
+template <typename T>
+int PartitionAleatorio(std::vector<T>& V, int ini, int fin) {
+   	int random_index = ini + std::rand() % (fin - ini + 1);
+    swap(V[random_index], V[fin]);
+    return Partition(V, ini, fin);
+}
+
+// Partition usando el elemento central como pivote
+template <typename T>
+int PartitionCentral(std::vector<T>& V, int ini, int fin) {
+    int mid = (ini + fin) / 2;
+    swap(V[mid], V[fin]);
+    return Partition(V, ini, fin);
+}
+
+// Funcion QuickSort último
 template <typename T>
 void QuickSort(std::vector<T>& v, int ini, int fin){
 	if(ini < fin){
@@ -117,3 +139,32 @@ void QuickSort(std::vector<T>& v, int ini, int fin){
 }
 
 
+// Funcion QuickSort primero
+template <typename T>
+void QuickSortPrimero(std::vector<T>& v, int ini, int fin){
+	if(ini < fin){
+		int pivot = PartitionPrimero(v, ini, fin);
+		QuickSortPrimero(v, ini, pivot -1);
+		QuickSortPrimero(v, pivot + 1, fin);
+	}
+}
+
+// Funcion QuickSort aleatorio
+template <typename T>
+void QuickSortAleatorio(std::vector<T>& v, int ini, int fin){
+	if(ini < fin){
+		int pivot = PartitionAleatorio(v, ini, fin);
+		QuickSortAleatorio(v, ini, pivot -1);
+		QuickSortAleatorio(v, pivot + 1, fin);
+	}
+}
+
+// Funcion QuickSort central
+template <typename T>
+void QuickSortCentral(std::vector<T>& v, int ini, int fin){
+	if(ini < fin){
+		int pivot = PartitionCentral(v, ini, fin);
+		QuickSortCentral(v, ini, pivot -1);
+		QuickSortCentral(v, pivot + 1, fin);
+	}
+}
