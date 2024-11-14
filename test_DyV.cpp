@@ -4,6 +4,59 @@
 
 using namespace std;
 
+// Función para verificar si un vector está ordenado en orden ascendente
+template <typename T>
+bool estaOrdenado(const std::vector<T>& vec) {
+    for (size_t i = 1; i < vec.size(); i++) {
+        if (vec[i - 1] > vec[i]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+// Función para probar QuickSort con diferentes tipos de datos
+void testQuickSort() {
+    bool todas_las_pruebas_correctas = true;
+
+    // Prueba con enteros
+    std::vector<int> vec_int = {34, 7, 23, 32, 5, 62};
+    QuickSort(vec_int, 0, vec_int.size() - 1);
+    if (estaOrdenado(vec_int)) {
+        std::cout << "Prueba con int pasó correctamente.\n";
+    } else {
+        std::cout << "Prueba con int falló.\n";
+        todas_las_pruebas_correctas = false;
+    }
+
+    // Prueba con flotantes
+    std::vector<float> vec_float = {3.4, 7.1, 2.3, 3.2, 5.0, 6.2};
+    QuickSort(vec_float, 0, vec_float.size() - 1);
+    if (estaOrdenado(vec_float)) {
+        std::cout << "Prueba con float pasó correctamente.\n";
+    } else {
+        std::cout << "Prueba con float falló.\n";
+        todas_las_pruebas_correctas = false;
+    }
+
+    // Prueba con caracteres
+    std::vector<char> vec_char = {'d', 'a', 'c', 'f', 'b', 'e'};
+    QuickSort(vec_char, 0, vec_char.size() - 1);
+    if (estaOrdenado(vec_char)) {
+        std::cout << "Prueba con char pasó correctamente.\n";
+    } else {
+        std::cout << "Prueba con char falló.\n";
+        todas_las_pruebas_correctas = false;
+    }
+
+    // Resultado final
+    if (todas_las_pruebas_correctas) {
+        std::cout << "Todas las pruebas de QuickSort pasaron correctamente." << std::endl;
+    } else {
+        std::cout << "Algunas pruebas de QuickSort fallaron." << std::endl;
+    }
+}
+
 int main(){
 
 	vector<int> vI = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -37,5 +90,7 @@ int main(){
 	}else{
 	cout << "Se ha encontrado el valor en el vector de char en la posicion: " << valor3	<< " Posición inv:" << valor6 << endl;
 	}
+
+	testQuickSort();
 
 }

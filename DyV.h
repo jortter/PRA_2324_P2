@@ -47,6 +47,7 @@ int BusquedaBinaria(T x, std::vector<T>& v, int ini, int fin){
 	}
 }
 
+// Función BusquedaBinaria_INV para vectores ordenados de manera descendente
 template <typename T>
 int BusquedaBinaria_INV(T x, std::vector<T>& v, int ini, int fin){
 	if(ini > fin){
@@ -62,3 +63,57 @@ int BusquedaBinaria_INV(T x, std::vector<T>& v, int ini, int fin){
 		return BusquedaBinaria_INV(x, v, ini, medio -1);
 	}
 }
+
+/**** PSEUDOCODIGO FUNCION SORT
+QuickSort(val[] V, int ini, int fin):
+        Si ini < fin:
+                 int pivot = Partition(V, ini, fin)
+                 QuickSort(V, ini, pivot - 1)
+                 QuickSort(V, pivot + 1, fin)
+
+Partition(val[] V, int ini, int fin):
+         val x = V[fin]
+         int i = ini
+         Para j = ini hasta fin - 1:
+               Si V[j] <= x:
+                     Intercambiar V[i] V[j]
+                     i = i + 1
+         Intercambiar V[i] V[fin]
+         Devolver i 
+****/
+
+
+// función para intercambiar dos elementos
+template <typename t>
+void swap(t& a, t& b) {
+    t temp = a;
+    a = b;
+    b = temp;
+}
+
+// Funcion Partition
+template <typename T>
+int Partition(std::vector<T>& v, int ini, int fin){
+	T x = v[fin];
+	int i = ini;
+	for( int j = ini; j < fin; j++){
+		if(v[j] <= x){
+			swap(v[i], v[j]);
+			i++;
+		}
+	}
+	swap(v[i], v[fin]);
+	return i;
+}
+
+// Funcion QuickSort
+template <typename T>
+void QuickSort(std::vector<T>& v, int ini, int fin){
+	if(ini < fin){
+		int pivot = Partition(v, ini, fin);
+		QuickSort(v, ini, pivot -1);
+		QuickSort(v, pivot + 1, fin);
+	}
+}
+
+
